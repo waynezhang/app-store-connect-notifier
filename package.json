@@ -1,0 +1,23 @@
+{
+  "name": "app-store-connect-notifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@keyv/sqlite": "^2.0.2",
+    "@slack/web-api": "^5.11.0",
+    "cron": "^1.8.2",
+    "got": "^11.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "keyv": "^4.0.1",
+    "line-notify-nodejs": "^1.0.0",
+    "semver": "^7.3.2",
+    "tough-cookie": "^4.0.0",
+    "yargs": "^16.0.2"
+  }
+}
