@@ -1,3 +1,4 @@
+import fs from 'fs';
 import Keyv from 'keyv';
 import { Notifier } from '../notifier/notifier';
 import { ConnectAPI } from '../api/connect-api';
@@ -20,7 +21,11 @@ export class Updater {
     this.config = config;
     this.silence = silence;
 
-    this.keyv = new Keyv('sqlite://status.sqlite');
+    const directory = 'data';
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory);
+    }
+    this.keyv = new Keyv(`sqlite://${directory}/status.sqlite`);
     this.keyv.on('error', err => console.log('Connection Error', err));
   }
 
