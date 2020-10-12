@@ -1,11 +1,11 @@
 {
-    "apps":[
-        {
-            "name"                  : "appconnect-notifier",
-            "script"                : "./index.js",
-            "args"                  : "schedule",
-            "autorestart"           : true,
-	    "log_date_format"	    : "YYYY-MM-DD HH:mm Z"
-        }
-    ]
+	"apps":[
+		{
+			"name"                  : "appconnect-notifier",
+			"script"                : "npm",
+			"args"                  : [ "start", "schedule" ],
+			"autorestart"           : true,
+			"log_date_format"	    : "YYYY-MM-DD HH:mm Z"
+		}
+	]
 }

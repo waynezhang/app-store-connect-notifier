@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "./node_modules/typescript/bin/tsc -w"
+    "watch": "./node_modules/typescript/bin/tsc -w",
+    "build": "./node_modules/typescript/bin/tsc",
+    "start": "npm run build && node dist"
   },
   "author": "",
   "license": "ISC",
