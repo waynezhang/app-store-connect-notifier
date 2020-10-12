@@ -1,6 +1,7 @@
 # AppStoreConnect Notifier
 
-This script fetches app and testflight build state from AppStoreConnect and notify the changes via configured notifiers.
+This script fetches app and testflight build state from AppStoreConnect and notify the changes via configured notifiers.  
+Pure TypeScript and no fastlane required.
 
 ## Configure
 
@@ -116,12 +117,12 @@ The config below will run update every minute.
 
 ### Update data
 
-`node index.js update`
+`npm start update`
 
 ### Update data without any notifications
 
-`node index.js migrate`
+`npm start migrate`
 
 ### Start scheduling
 
-`node index.js schedule`
+`npm start schedule`
