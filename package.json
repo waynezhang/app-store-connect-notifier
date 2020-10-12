@@ -4,20 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "./node_modules/typescript/bin/tsc -w"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@inkohx/line-notify": "0.0.1",
     "@keyv/sqlite": "^2.0.2",
     "@slack/web-api": "^5.11.0",
     "cron": "^1.8.2",
     "got": "^11.6.0",
     "jsonwebtoken": "^8.5.1",
     "keyv": "^4.0.1",
-    "line-notify-nodejs": "^1.0.0",
     "semver": "^7.3.2",
     "tough-cookie": "^4.0.0",
     "yargs": "^16.0.2"
+  },
+  "devDependencies": {
+    "-": "0.0.1",
+    "@types/cron": "^1.7.2",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/semver": "^7.3.4",
+    "@types/tough-cookie": "^4.0.0",
+    "@types/yargs": "^15.0.8",
+    "npm": "^6.14.8",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.3"
   }
 }
