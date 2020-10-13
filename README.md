@@ -126,3 +126,41 @@ The config below will run update every minute.
 ### Start scheduling
 
 `npm start schedule`
+
+### Schedule with PM2
+
+`pm2 start process.json`
+
+You may want to run `pm2 save` to save the status.
+
+## Custom Notifier
+
+You can make any custom notifier to meet your needs.
+
+The notifier interface is defined in `src/notifier/notifier.ts`.  
+
+```typescript
+export interface Notifier {
+  notify(appVersion: AppVersion): Promise<void>
+  notifyTestFlightBuild(build: TestFlightBuild): Promise<void>
+}
+```
+
+You can create a new notifier class that implements this interface and export it as default ([example](https://github.com/waynezhang/app-store-connect-notifier/blob/master/src/notifier/console-notifier.ts)).  
+
+Then configure it in `config.json` like below:
+
+```
+{
+  "notifiers": [
+    {
+      "name": "Awesome Notifier",
+      "class": "awesome-class-here",
+      "constructor": [ "all-the-arguments-for-constructor" ]
+    },
+    ...
+  ],
+  ...
+}
+
+```
