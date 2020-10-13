@@ -1,6 +1,6 @@
 # AppStoreConnect Notifier
 
-This script fetches app and testflight build state from AppStoreConnect and notify the changes via configured notifiers(now Slack and LINE are supported).  
+This script fetches app and testflight build state from AppStoreConnect and notify the changes via configured notifiers(Currently supports Slack and LINE).  
 Pure TypeScript and no fastlane required.
 
 ## Configure
