@@ -162,5 +162,4 @@ Then configure it in `config.json` like below:
   ],
   ...
 }
-
 ```
