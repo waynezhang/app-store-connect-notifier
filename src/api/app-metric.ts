@@ -27,14 +27,16 @@ export class Metric implements Identifiable {
 
   app: App
   metricIdentifier: MetricIdentifier
+  unit: string
   device: MetricDevice
   percentile: MetricPercentile
   version: string
   value: number
 
-  constructor(app: App, identifier: MetricIdentifier, device: MetricDevice, percentile: MetricPercentile, version: string, value: number) {
+  constructor(app: App, identifier: MetricIdentifier, unit: string, device: MetricDevice, percentile: MetricPercentile, version: string, value: number) {
     this.app = app;
     this.metricIdentifier = identifier;
+    this.unit = unit;
     this.device = device ;
     this.percentile = percentile;
     this.version = version;

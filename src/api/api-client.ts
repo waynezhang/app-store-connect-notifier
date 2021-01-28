@@ -87,6 +87,7 @@ export class APIClient {
       for (const metric of category.metrics) {
         const identifierString = `${category.identifier}-${metric.identifier}`;
         const identifier = identifierString as MetricIdentifier;
+        const unit = metric.unit.displayName;
         for (const dataset of metric.datasets) {
           const percentile = dataset.filterCriteria.percentile as MetricPercentile;
           const device = dataset.filterCriteria.device as MetricDevice;
@@ -95,7 +96,7 @@ export class APIClient {
             const version = point.version;
             const value = point.value;
 
-            const item = new Metric(app, identifier, device, percentile, version, value);
+            const item = new Metric(app, identifier, unit, device, percentile, version, value);
             metrics.push(item);
           }
         }

@@ -13,6 +13,7 @@ class CSVNotifier implements Notifier {
 
   private readonly path: string
   private readonly metrics: Record <string, Items> = {}
+  private readonly metricUnits: Record <string, string> = {}
 
   constructor(path: string) {
     this.path = path;
@@ -40,45 +41,45 @@ class CSVNotifier implements Notifier {
 
   async notifyMetric(metric: Metric) {
     const fileName = this.metricFileName(metric);
+
     const data = this.metrics[fileName] ?? {};
     data[metric.version] = metric.value;
+
     this.metrics[fileName] = data;
+    this.metricUnits[fileName] = metric.unit;
   }
 
   private async handle(filename: string, metrics: Items) {
     const fullpath = this.path + '/' + filename;
-    let data: string;
+
+    let record: Record<string, any> = {};
     try {
-      data = fs.readFileSync(fullpath).toString();
-    } catch {
-      data = "version,value";
-    }
-
-    const records = csvParse(data, {
-      columns: true,
-      skip_empty_lines: true
-    });
-
-    for (const record of records) {
-      const version = record.version;
-      const newValue = metrics[version];
-      if (newValue) {
-        record.value = newValue;
-        delete metrics[version];
+      const data = fs.readFileSync(fullpath).toString();
+      const records = csvParse(data, {
+        columns: true,
+        skip_empty_lines: true
+      });
+      if (records.length > 0) {
+        record = records[0] as any as Record<string, any>;
+        delete record.Unit;
       }
+    } catch {
+      // File not exists
     }
 
     for (const version of Object.keys(metrics)) {
-      records.push({
-        version,
-        value: metrics[version]
-      });
+      record[version] = metrics[version];
     }
 
-    records.sort((r1: any, r2: any) => semver.lt(r1.version, r2.version) ? -1 : 1);
+    const columns = Object.keys(record);
+    columns.sort((v1: string, v2: string) => semver.lt(v1, v2) ? -1 : 1 );
 
-    const str = csvStringify(records, {
+    columns.unshift('Unit');
+    record.Unit = this.metricUnits[filename];
+
+    const str = csvStringify([record], {
       header: true,
+      columns
     });
     fs.writeFileSync(fullpath, str);
   }
