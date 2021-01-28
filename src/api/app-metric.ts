@@ -1,4 +1,4 @@
-import { Identifiable } from './Identifiable';
+import { Identifiable } from './identifiable';
 import { App } from './app';
 
 export enum MetricIdentifier {
