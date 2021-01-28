@@ -3,6 +3,7 @@ import { AppVersion } from '../api/app-version';
 import { WebClient } from '@slack/web-api';
 import { TestFlightBuild } from '../api/testflight-build';
 import { formatEnumString } from '../util/string-utils';
+import { Metric } from '../api/app-metric';
 
 enum State {
   Neutral,
@@ -29,6 +30,14 @@ class SlackNotifier implements Notifier {
 
   constructor(token: string, private channel: string) {
     this.notifier = new WebClient(token);
+  }
+
+  setUp() {
+    // NOTHING
+  }
+
+  tearDown() {
+    // NOTHING
   }
 
   async notify(appVersion: AppVersion) {
@@ -94,6 +103,10 @@ class SlackNotifier implements Notifier {
       ]
     };
     await this.notifier.chat.postMessage(message);
+  }
+
+  async notifyMetric(_metric: Metric) {
+    // NOTHING
   }
 
   private colorOfAppVersion(version: AppVersion): string {

@@ -1,6 +1,7 @@
 import { ConnectAPI } from './connect-api';
 import { AppVersion } from './app-version';
 import { App } from './app';
+import { Metric, MetricIdentifier, MetricDevice, MetricPercentile } from './app-metric';
 import { TestFlightBuild } from './testflight-build';
 import * as semver from 'semver';
 import got from 'got';
@@ -69,6 +70,38 @@ export class APIClient {
       builds.push(build);
     }
     return builds;
+  }
+
+  async fetchMetric(app: App): Promise<Metric[]> {
+    const { body } = await this.requestClient(`apps/${app.id}/perfPowerMetrics`, {
+      searchParams: {
+        'filter[deviceType]': 'all_ipads,all_iphones'
+      },
+      headers: {
+        'Accept': 'application/vnd.apple.xcode-metrics+json'
+      }
+    });
+
+    const metrics: Metric[] = [];
+    for (const category of (body as any).productData[0].metricCategories) {
+      for (const metric of category.metrics) {
+        const identifierString = `${category.identifier}-${metric.identifier}`;
+        const identifier = identifierString as MetricIdentifier;
+        for (const dataset of metric.datasets) {
+          const percentile = dataset.filterCriteria.percentile as MetricPercentile;
+          const device = dataset.filterCriteria.device as MetricDevice;
+
+          for (const point of dataset.points) {
+            const version = point.version;
+            const value = point.value;
+
+            const item = new Metric(app, identifier, device, percentile, version, value);
+            metrics.push(item);
+          }
+        }
+      }
+    }
+    return metrics;
   }
 
   private async fetchTestFlightBuild(versionId: string): Promise<any> {

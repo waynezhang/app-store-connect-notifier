@@ -5,6 +5,7 @@ import { ConnectAPI } from '../api/connect-api';
 import { APIClient } from '../api/api-client';
 import { AppVersion } from '../api/app-version';
 import { TestFlightBuild } from '../api/testflight-build';
+import { Metric } from '../api/app-metric';
 import { Identifiable } from '../api/identifiable';
 
 interface NotifierMap {
@@ -37,9 +38,13 @@ export class Updater {
   }
 
   async update() {
+    Object.values(this.notifiers).forEach(n => n.setUp());
+
     await this.apiClient.login();
     await this.updateApps();
     await this.updateTestFlightBuilds();
+
+    Object.values(this.notifiers).forEach(n => n.tearDown());
   }
 
   private async initializeNotifiers(config: any): Promise<NotifierMap> {
@@ -72,8 +77,13 @@ export class Updater {
         const app = await this.apiClient.findApp(item.bundleId);
         const versions = await this.apiClient.findAppVersions(app);
 
-        this.checkAndNotify(versions, item.notifiers, async (notifier, appVersion) => {
+        await this.checkAndNotify(versions, item.notifiers, async (notifier, appVersion) => {
           await notifier.notify(appVersion as AppVersion);
+        });
+
+        const metrics = await this.apiClient.fetchMetric(app);
+        await this.checkAndNotify(metrics, item.notifiers, async (notifier, metric) => {
+          await notifier.notifyMetric(metric as Metric);
         });
       } catch(err) {
         console.log(`[Log] Failed to retrieve app due to ${err}`);

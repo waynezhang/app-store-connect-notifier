@@ -15,6 +15,7 @@
     "@keyv/sqlite": "^2.0.2",
     "@slack/web-api": "^5.11.0",
     "cron": "^1.8.2",
+    "csv": "^5.3.2",
     "got": "^11.6.0",
     "jsonwebtoken": "^8.5.1",
     "keyv": "^4.0.1",

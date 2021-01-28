@@ -14,12 +14,17 @@
       "name": "Slack Notifier for some app",
       "class": "notifier/slack-notifier",
       "constructor": [ "token", "channel" ]
+    },
+    {
+      "name": "CSV Notifier",
+      "class": "notifier/csv-notifier",
+      "constructor": ["./csv"]
     }
   ],
   "apps": [
     {
       "bundleId": "xx.xxx.xxx",
-      "notifiers": ["Console Notifier", "LINE Notifier for some app", "Slack Notifier for some app"]
+      "notifiers": ["Console Notifier", "LINE Notifier for some app", "Slack Notifier for some app", "CSV Notifier"]
     },
   ],
   "testflight": [

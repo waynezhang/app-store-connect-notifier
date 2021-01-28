@@ -3,6 +3,7 @@ import { LineNotify } from '@inkohx/line-notify';
 import { AppVersion } from '../api/app-version';
 import { TestFlightBuild } from '../api/testflight-build';
 import { formatEnumString } from '../util/string-utils';
+import { Metric } from '../api/app-metric';
 
 class LINENotifier implements Notifier {
 
@@ -10,6 +11,14 @@ class LINENotifier implements Notifier {
 
   constructor(token: string) {
     this.notifier = new LineNotify(token);
+  }
+
+  setUp() {
+    // NOTHING
+  }
+
+  tearDown() {
+    // NOTHING
   }
 
   async notify(appVersion: AppVersion) {
@@ -28,6 +37,10 @@ class LINENotifier implements Notifier {
       `External Test: *${formatEnumString(build.externalBuildState)}*`,
     ].join('\n');
     this.notifier.send({ message });
+  }
+
+  async notifyMetric(_metric: Metric) {
+    // NOTHING
   }
 }
 
