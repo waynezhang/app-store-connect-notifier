@@ -1,12 +1,14 @@
 # AppStoreConnect Notifier
 
-This script fetches app and testflight build state from AppStoreConnect and notify the changes via configured notifiers(Currently supports Slack and LINE).  
+This script collects status and metric data of app from AppStore Connect and dispatches them to the notifiers(LINE, Slack, or CSV files even).
 
 ## Features
 
-- Support both App and TestFlight build
-- Supoprt to configure mutiple notifiers for multiple Apps and TestFilght builds
+- Support collecting status of both App and TestFlight build
+- Support collecting metric datas from Apps
 - Share status change via Slack and LINE(or any customize notifier)
+- Supoprt to configure mutiple notifiers for multiple Apps and TestFilght builds
+- Generate CSV report for metric datas
 - Pure TypeScript and no fastlane required.
 
 ![](screenshots/slack.jpg)
@@ -64,7 +66,7 @@ Console notifier logs all the changed in console.
 
 #### Slack Notifier
 
-Slack notifier sends changes to a specific channel of slack.
+Slack notifier sends app status changes to a specific channel of slack.
 
 ```json
 {
@@ -76,7 +78,7 @@ Slack notifier sends changes to a specific channel of slack.
 
 #### LINE Notifier
 
-LINE notifier sends changes via [LINE Notify](https://notify-bot.line.me).
+LINE notifier sends app status changes via [LINE Notify](https://notify-bot.line.me).
 
 ```json
 {
@@ -84,6 +86,18 @@ LINE notifier sends changes via [LINE Notify](https://notify-bot.line.me).
   "class": "notifier/line-notifier",
   "constructor": [ "line_notify_token" ]
 },
+```
+
+#### CSV Notifier
+
+CSV notifier collects app metric data and generate CSV files from them.
+
+```json
+{
+  "name": "Sample CSV Notifier",
+  "class": "notifier/csv-notifier",
+  "constructor": [ "directory of CSV files" ]
+}
 ```
 
 ### App
