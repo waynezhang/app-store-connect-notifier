@@ -23,6 +23,8 @@ export enum MetricPercentile {
   ninety = 'percentile.ninety',
 }
 
+type MetricBreakdown = Record<string, number>
+
 export class Metric implements Identifiable {
 
   app: App
@@ -32,8 +34,9 @@ export class Metric implements Identifiable {
   percentile: MetricPercentile
   version: string
   value: number
+  breakdown: MetricBreakdown | null = null
 
-  constructor(app: App, identifier: MetricIdentifier, unit: string, device: MetricDevice, percentile: MetricPercentile, version: string, value: number) {
+  constructor(app: App, identifier: MetricIdentifier, unit: string, device: MetricDevice, percentile: MetricPercentile, version: string, value: number, breakdown: any | null) {
     this.app = app;
     this.metricIdentifier = identifier;
     this.unit = unit;
@@ -41,6 +44,13 @@ export class Metric implements Identifiable {
     this.percentile = percentile;
     this.version = version;
     this.value = value;
+
+    if (breakdown) {
+      this.breakdown = {};
+      for (const pair of breakdown) {
+        this.breakdown[pair.subSystemLabel] = pair.value;
+      }
+    }
   }
 
   get identifier(): string {

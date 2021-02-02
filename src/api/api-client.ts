@@ -96,7 +96,7 @@ export class APIClient {
             const version = point.version;
             const value = point.value;
 
-            const item = new Metric(app, identifier, unit, device, percentile, version, value);
+            const item = new Metric(app, identifier, unit, device, percentile, version, value, point.percentageBreakdown);
             metrics.push(item);
           }
         }
